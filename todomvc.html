@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-type" 
+              content="text/html;charset=UTF-8"/>
+        <title>Todos</title>
+        
+        <link rel="stylesheet" href="assets/base.css">
+        
+        <script type="text/javascript"
+                src="script/require.js">
+        </script>
+        <script type="text/javascript">
+        
+            // Work around until undefined is handled by Ceylon
+            window.isUndefined = function(check) {
+            	function getUndefined(undefined) {
+            		return undefined;
+            	}
+            	var undefined = getUndefined();
+            	return check == undefined;
+            }
+        
+            require.config({
+                // location of our project's compiled modules
+                baseUrl: 'modules',
+            });
+            //alias our hello module to 'h'
+            
+            // poc.run();
+            window.onload = function() {
+            	require(['io/cayla/todomvc/0.1.0/io.cayla.todomvc-0.1.0'], 
+                        function (module) { module.run(); });            
+            	}
+        </script>
+        </head>
+    <body id="body">
+    </body>
+</html>

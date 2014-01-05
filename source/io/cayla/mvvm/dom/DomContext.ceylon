@@ -1,0 +1,2 @@
+shared interface DomContext {
+}

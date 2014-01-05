@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-type" 
+              content="text/html;charset=UTF-8"/>
+        <title>Hello</title>
+        <script type="text/javascript"
+                src="script/require.js">
+        </script>
+        <script type="text/javascript">
+        
+            // Work around until undefined is handled by Ceylon
+            window.isUndefined = function(check) {
+            	function getUndefined(undefined) {
+            		return undefined;
+            	}
+            	var undefined = getUndefined();
+            	return check == undefined;
+            }
+        
+            require.config({
+                // location of our project's compiled modules
+                baseUrl: 'modules',
+            });
+            
+            function testsuite() {
+                require(['test/io/cayla/mvvm/0.1.0/test.io.cayla.mvvm-0.1.0'], 
+                        function (module) {
+                	try {
+                        module.run();
+                	} catch (err) {
+                		console.log("Caught error when running testsuite");
+                		console.log(err);
+                	}
+                	});            
+            }
+        </script>
+        </head>
+    <body>
+        Open the console to see the testsuite:
+        <input type="submit" onclick="testsuite()" value="run"/>
+    </body>
+</html>
