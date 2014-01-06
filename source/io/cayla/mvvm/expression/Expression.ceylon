@@ -1,6 +1,5 @@
 import ceylon.language.meta.model { Attribute, Method }
-import io.cayla.mvvm { Binder }
-import io.cayla.mvvm.view { Binding, BindingContext }
+import io.cayla.mvvm.binding { Binding, Binder, BindingContext }
 
 shared interface Expression<out Type, Source>
         given Type satisfies Object
@@ -25,7 +24,7 @@ shared interface Expression<out Type, Source>
     shared Binding bindTo(Binder<Type> handler) {
         object impl extends Binding() {
             shared actual void init(BindingContext context) {
-                if (exists s = context.resolve<Source>()) {
+                if (exists s = context.model.resolve<Source>()) {
                     Type f = traverse(s);
                     handler.init(f, context);
                 }

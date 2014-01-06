@@ -1,10 +1,21 @@
 import ceylon.collection { LinkedList, MutableList }
-shared class ObservableList<Element>()
+
+"""An observable list that wraps a Ceylon mutable list. The observed list provides notifications for changes of the list itself, changes made to
+   the elements themselves are not related to this observable object.
+   
+   When dependency tracking is active, accessing the list in read mode creates an implicit dependency on this observable.
+   When the list is modified, subscribers of this observable will be notified.
+   
+   Keep in mind that the updating directly the underlying list will not broadcast any update. Likewise reading the underlying list
+   will not affect dependency tracking.
+   """
+shared class ObservableList<Element>(
+    "The mutable list"
+    MutableList<Element> list = LinkedList<Element>())
         satisfies Observable<List<Element>> & MutableList<Element>
         given Element satisfies Object {
 
     value subscribers = Subscribers<List<Element>>();
-    value list = LinkedList<Element>();
     
     shared actual Subscription subscribe(Anything(List<Element>) subscriber) => subscribers.subscribe(subscriber);
     

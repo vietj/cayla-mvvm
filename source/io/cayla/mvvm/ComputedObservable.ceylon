@@ -3,7 +3,11 @@ shared ComputedObservable<Value> computed<Value>(Value() compute)
         given Value satisfies Object
         => ComputedObservable(compute);
 
-shared class ComputedObservable<Value>(Value() compute) satisfies Observable<Value> given Value satisfies Object {
+"""A computed observable turns a closure into an observable of the value produced by the function. The computed
+   observable can depend on one or more other observables and it will automatically update whenever any of these
+   dependencies change.
+   """
+shared class ComputedObservable<Value>(Value() closure) satisfies Observable<Value> given Value satisfies Object {
 
     value subscribers = Subscribers<Value>();
     variable Value? evaluation = null;
@@ -21,7 +25,7 @@ shared class ComputedObservable<Value>(Value() compute) satisfies Observable<Val
             Set<Observable<Object>> observed;
             try {
                 dependant.begin();
-                e = compute();
+                e = closure();
             }
             finally {
                 observed = dependant.end();

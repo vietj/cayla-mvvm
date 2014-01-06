@@ -1,8 +1,11 @@
 import io.cayla.mvvm.dom { DomNode, byId }
-import io.cayla.mvvm { ... }
+
 import io.cayla.mvvm.view { Input, Ul, Li, Label, CheckBox, Div, Button, Span, Section, Header, H1, Footer, Strong, A, P }
 import io.cayla.mvvm.expression { ... }
 import ceylon.collection { LinkedList }
+import io.cayla.mvvm.binding { binders }
+import io.cayla.mvvm { ... }
+
 class TodoList() {
     
     shared Property<String> title = Property("");
@@ -140,7 +143,7 @@ class TodoList() {
             }
         };
         
-        DomNode formNode = a.bind(this);
+        DomNode formNode = a.apply(this).node;
         byId("body").addChild(formNode);
     }
 }

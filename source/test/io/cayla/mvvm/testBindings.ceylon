@@ -1,12 +1,18 @@
 import io.cayla.mvvm {
-    binders,
     Property,
     ObservableList
 }
 import io.cayla.mvvm.expression { ... }
 import io.cayla.mvvm.dom { DomNode }
-import io.cayla.mvvm.view { InputText, Ul, Li, Div, Button, Binding }
+import io.cayla.mvvm.view {
+    InputText,
+    Ul,
+    Li,
+    Div,
+    Button
+}
 import ceylon.test { ... }
+import io.cayla.mvvm.binding { Binding, binders }
 
 class Person(shared Property<String> firstName, shared Property<String> lastName) {
 }
@@ -33,7 +39,7 @@ shared test void testStringPropertyBinding() {
             bindings = firstNameBinding;
         };
         Person user = Person(Property("julien"), Property("viet"));
-        DomNode node = element.bind(user);
+        DomNode node = element.apply(user).node;
         DomNode added = fragment.addChild(node);
         assertEquals("julien", added.getValue());
         user.firstName.setValue("whatever");
@@ -56,7 +62,7 @@ shared test void testWith() {
         };
         Person julien = Person(Property("julien"), Property("viet"));
         Car clio = Car(Property("clio"), Property(julien));
-        DomNode dom = view.bind(clio);
+        DomNode dom = view.apply(clio).node;
         assert(exists firstNameNode = dom.getChildren().first);
         assert(exists lastNameNode = dom.getChildren().rest.first);
         assertEquals("julien", firstNameNode.getValue());
@@ -81,7 +87,7 @@ shared test void testForEach() {
                 InputText { name = "foo"; bindings = firstNameBinding; } 
             }
         };
-        DomNode node = element.bind(group);
+        DomNode node = element.apply(group).node;
         DomNode added = fragment.addChild(node);
         assert(exists fooLi = added.getChildren().first);
         assertEquals(1, fooLi.getChildren().size);
@@ -111,7 +117,7 @@ shared test void testResolvePropertyInHierachy() {
         };
         Person julien = Person(Property("julien"), Property("viet"));
         Car clio = Car(Property("clio"), Property(julien));
-        DomNode dom = view.bind(clio);
+        DomNode dom = view.apply(clio).node;
         assert(exists firstNameNode = dom.getChildren().first);
         assertEquals("clio", firstNameNode.getValue());
     });
@@ -134,7 +140,7 @@ shared test void testResolveHandlerInHierachy() {
         };
         Child child = Child();
         Parent parent = Parent(Property(child));
-        DomNode dom = view.bind(parent);
+        DomNode dom = view.apply(parent).node;
         assert(exists clickNode = dom.getChildren().first);
         assertEquals(0, parent.count);
         clickNode.click();
@@ -161,7 +167,7 @@ shared test void testResolveListenerInHierachy() {
         };
         Child child = Child();
         Parent parent = Parent(Property(child));
-        DomNode dom = view.bind(parent);
+        DomNode dom = view.apply(parent).node;
         assert(exists clickNode = dom.getChildren().first);
         assertEquals(0, parent.count);
         clickNode.click();
